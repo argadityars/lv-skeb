@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProfilesTable extends Migration
+class CreateShopsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,24 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('shops', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('province_id');
             $table->integer('city_id');
+            $table->string('name');
+            $table->string('slug');
+            $table->string('tagline');
+            $table->string('email');
             $table->text('address');
-            $table->integer('date');
-            $table->integer('month');
-            $table->integer('year');
-            $table->string('phone', 50);
-            $table->string('avatar')->nullable();
+            $table->string('photo')->nullable();
             $table->string('banner')->nullable();
+            $table->integer('start_day')->nullable();
+            $table->integer('end_day')->nullable();
+            $table->time('start_hour')->nullable();
+            $table->time('end_hour')->nullable();
+            $table->text('note')->nullable();
+            $table->tinyInteger('featured')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -37,6 +43,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('shops');
     }
 }

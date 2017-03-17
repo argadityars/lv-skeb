@@ -5,7 +5,13 @@
 <!-- CSRF Token -->
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<title>@yield('title') {{ config('app.name', 'Skebbook') }}</title>
+<title>
+    @hasSection('title')
+        @yield('title') - {{ config('app.name', 'Skebbook') }}
+    @else
+        {{ config('app.name', 'Skebbook') }}
+    @endif
+</title>
 
 <!-- Styles -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">

@@ -5,3 +5,19 @@
     z-index: 10;
     border-radius: 0;
 }
+
+.table-clean tbody tr td {
+	border-top: 0;
+}
+
+.panel-background {
+	max-height: 130px;
+	overflow: hidden;
+}
+
+.img-avatar-lg {
+	max-width: 100px;
+	width: 100px;
+	position: absolute;
+	top: 15px;
+}

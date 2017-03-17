@@ -123,7 +123,8 @@ class RegisterController extends Controller
      */
     public function verify($token)
     {
-        User::where('email_token', $token)->firstOrFail()->verified();
-        return redirect('login')->with('message', 'Email confirmed! You can login now.');
+        $this->middleware('auth');
+        //User::where('email_token', $token)->firstOrFail()->verified();
+        //return redirect('login')->with('message', 'Email confirmed! You can login now.');
     }
 }
