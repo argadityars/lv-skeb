@@ -24,14 +24,15 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'photos.*' => 'required|image',
+            'photos' => 'required',
+            'photos.*' => 'image',
             'name' => 'required|alpha_spaces',
             'author' => 'required',
             'category_id' => 'required|numeric',
             'subcategory_id' => 'required|numeric',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'condition' => 'required|in:Baru,Bekas',
-            'weight' => 'required',
+            'weight' => 'required|numeric',
             'synopsis' => 'required',
         ];
     }

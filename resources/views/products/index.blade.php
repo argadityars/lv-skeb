@@ -1,30 +1,14 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
-@section('title', 'Product - ')
+@section('title', 'Product')
 
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-	        	<div class="panel panel-default">
-	                <div class="panel-background">
-	                    @if (!$shop->banner)
-	                        <img src="{{ url('images/shop/banner/default.png') }}" class="img-responsive">
-	                    @else 
-	                        <img src="{{ Storage::url($shop->banner) }}" class="img-responsive">
-	                    @endif
-	                </div>
-	                <div class="panel-body">
-	                    @if (!$shop->photo)
-	                        <img src="{{ url('images/shop/photo/default.png') }}" class="img-responsive img-circle img-avatar-lg" alt="{{ $shop->name }}">
-	                    @else 
-	                        <img src="{{ Storage::url($shop->photo) }}" class="img-responsive img-circle img-avatar-lg" alt="{{ $shop->name }}">
-	                    @endif
-	                    <h4>{{ $shop->name }}</h4>
-	                    <a href="{{ route('product.create') }}" class="btn btn-primary btn-sm">@lang('actions.add_product')</a>
-	                    <a href="{{ route('shop.edit.customization') }}" class="btn btn-default btn-sm pull-right">@lang('actions.edit')</a>
-	                </div>
-	            </div>
+
+	        	@include('includes.modules.shop-head')
+
 	            <div class="panel panel-default">
 	                <div class="panel-body">
 	                	@if (session('message'))
@@ -33,23 +17,80 @@
 	                            {{ session('message') }}
 	                        </div>
 	                    @endif
-	                    
-	                    <table class="table table-clean table-striped no-margin-btm">
+
+	                    <table class="table table-clean table-striped table-divided no-margin-btm" id="products">
 	                    	@foreach ($products as $product)
-	                        <tr>
+	                        <tr class="item{{$product->slug}}">
 	                        	<td class="col-md-1"><img src="{{ Storage::url($product->productimages[0]->name) }}" class="img-responsive"></td>
-	                            <td class="col-md-10">
-	                            	{{ $product->name }} {!! $product->getCondition() !!}<br>
-	                            	<span class="text-muted"><small><em>by </em>{{ $product->author }}</small></span>
+	                            <td class="col-md-8">
+	                            	{{ $product->name }} <span class="label {{ $product->condition == 'Baru' ? 'label-primary' : 'label-success' }}">{{ $product->condition }}</span><br>
+	                            	<span class="text-muted"><small>
+	                            	<span style="padding-right: 20px;">@lang('forms.category'): {{ $product->category }}</span>@lang('forms.subcategory'): {{ $product->subcategory }}</small></span>
 	                            </td>
-	                            <td>{{ $product->price }}</td>
+	                            <td class="col-md-2" style="vertical-align: middle;">
+	                            	<div class="btn-group pull-right" role="group" aria-label="actions">
+										<a href="{{ url('product/edit', $product->slug) }}" class="btn btn-default btn-sm">@lang('actions.edit') Buku</a>
+										<button class="delete-modal btn btn-danger btn-sm" data-id="{{$product->slug}}" data-name="{{$product->name}}">x</button>
+									</div>
+	                            </td>
 	                        </tr>
 	                        @endforeach
 	                    </table>
 	                </div>
 	            </div>
-	        
+	        	<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+					<div class="modal-dialog" role="document">
+						<!-- Modal content-->
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								<h4 class="modal-title"></h4>
+							</div>
+							<div class="modal-body">
+								<div class="deleteContent">
+									Are you sure you want to delete <span class="dname"></span> ? <span class="hidden did"></span>
+								</div>
+							</div>
+							<div class="modal-footer">
+									<button type="button" class="btn actionBtn" data-dismiss="modal">
+										<span id="footer_action_button"> </span>
+									</button>
+									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								</div>
+						</div>
+					</div>
+				</div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('bottom_script')
+<script>
+$(document).on('click', '.delete-modal', function() {
+    $('#footer_action_button').text('Delete');
+    $('.actionBtn').removeClass('btn-success');
+    $('.actionBtn').addClass('btn-danger');
+    $('.actionBtn').addClass('delete');
+    $('.modal-title').text('Delete');
+    $('.did').text($(this).data('id'));
+    $('.deleteContent').show();
+    $('.form-horizontal').hide();
+    $('.dname').html($(this).data('name'));
+    $('#myModal').modal('show');
+});
+
+$('.modal-footer').on('click', '.delete', function() {
+    $.ajax({
+        type: 'delete',
+        url: 'product/delete/'+ $('.did').text(),
+        data: {
+            '_token': $('input[name=_token]').val(),
+        },
+        success: function(data) {
+            $('.item' + $('.did').text()).remove();
+        }
+    });
+});
+</script>
 @endsection

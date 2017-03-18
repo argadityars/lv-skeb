@@ -3,11 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
+    use SoftDeletes;
     protected $fillable = ['category_id', 'subcategory_id', 'name', 'slug', 'author', 'price', 'condition', 'weight', 'synopsis', 'notes'];
 
+    # Default
     public static function boot()
     {
         parent::boot();
@@ -19,6 +22,21 @@ class Product extends Model
 
             return true;
         });
+    }
+
+    # Mutator
+    public function getCategoryAttribute(){
+        $category = \App\Category::find($this->category_id);
+        $this->category_id = $category->name;
+
+        return $this->category_id;
+    }
+
+    public function getSubCategoryAttribute(){
+        $subcategory = \App\SubCategory::find($this->subcategory_id);
+        $this->subcategory_id = $subcategory->name;
+
+        return $this->subcategory_id;
     }
 
     /**
@@ -42,6 +60,6 @@ class Product extends Model
      */
     public function productImages()
     {
-        return $this->hasMany('App\ProductImages');
+        return $this->hasMany('App\ProductImage');
     }
 }

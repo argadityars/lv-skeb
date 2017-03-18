@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.default')
 
-@section('title', 'Product - ')
+@section('title', 'Product')
 
 @section('content')
 <div class="container">
@@ -48,7 +48,7 @@
                             <div class="col-md-6">
                                 {{ Form::text('author', null, ['class' => 'form-control']) }}
 
-                                <span class="help-block">{{ trans('messages.author_helper') }}</span>
+                                <span class="help-block">{{ trans('forms.author_helper') }}</span>
                                 @if ($errors->has('author'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('author') }}</strong>
@@ -171,7 +171,7 @@
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
                                 {{ Form::submit(trans('actions.save'), ['class' => 'btn btn-info']) }}
-                                <a href="{{ route('shop.index') }}" class="btn btn-default">@lang('actions.cancel')</a>
+                                <a href="{{ route('product.index') }}" class="btn btn-default">@lang('actions.cancel')</a>
                             </div>
                         </div>
 
@@ -183,30 +183,36 @@
 </div>
 @endsection
 
-@section('script')
+@section('bottom_script')
 <script>
-    if ($('#category_id').val()) {
-        $('#subcategory_id').prop('disabled', false);
-    } else {
-    	$('#subcategory_id').prop('disabled', true);
-    }
-    $('#category_id').on('change', function(e){
-        //console.log(e);
-        var category_id = e.target.value;
+    $(document).ready(function(){
+        var category_id = $('#category_id').val();
 
-        $.get('{{ url('subcategory/ajax') }}?category_id=' + category_id, function(data) {
+        if (category_id) {
+            if (!$('#subcategory_id').val()) {
+                getSubcategories();
+            } 
+        } else {
+            $('#subcategory_id').prop('disabled', true);
+        }
+    });
+
+    $('#category_id').on('change', function(){
+        getSubcategories();
+    });
+
+    function getSubcategories(){
+        var category_id = $('#category_id').val();
+
+        $.get('{{ url('api/subcategory') }}/' + category_id, function(data) {
             //console.log(data);
             $('#subcategory_id').empty();
-            if ($('#category_id').val() == '') {
-                $('#subcategory_id').prop('disabled', true);
-            } else {
-                $('#subcategory_id').prop('disabled', false);
-            }
+            $('#subcategory_id').prop('disabled', false);
             $('#subcategory_id').append('<option value="">{{ trans('forms.subcategory').'...' }}</option>');
             $.each(data, function(index,subCatObj){
                 $('#subcategory_id').append('<option value="'+ index +'">'+subCatObj+'</option>');
             });
         });
-    });
+    }
 </script>
 @endsection

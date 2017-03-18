@@ -70,4 +70,13 @@ class Shop extends Model
         }
         return $days;
     }
+
+    # Relation
+    /**
+     * Get the profile record associated with the user.
+     */
+    public function products()
+    {
+        return $this->hasMany('App\Product');
+    }
 }

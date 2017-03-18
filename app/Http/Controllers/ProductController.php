@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Product;
+use App\ProductImage;
+use App\Shop;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -13,7 +18,7 @@ class ProductController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => ['show']]);
     }
 
     /**
@@ -26,7 +31,7 @@ class ProductController extends Controller
         $shop = Shop::where('user_id', Auth::user()->id)->firstOrFail();
         $products = Product::where('shop_id', $shop->id)->get();
 
-        return view('product.index', [
+        return view('products.index', [
             'shop' => $shop,
             'products' => $products
         ]);
@@ -40,9 +45,9 @@ class ProductController extends Controller
     public function create()
     {
         $categories = DB::table('categories')->pluck('name', 'id');
-        $subcategories = DB::table('subcategories')->pluck('name', 'id');
+        $subcategories = DB::table('sub_categories')->pluck('name', 'id');
 
-        return view('product.create', [
+        return view('products.create', [
             'categories' => $categories,
             'subcategories' => $subcategories
         ]);
@@ -54,7 +59,7 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ProductRequest $request)
+    public function store(\App\Http\Requests\ProductRequest $request)
     {
         //Get Shop
         $shop = Shop::where('user_id', Auth::user()->id)->first();
@@ -74,7 +79,7 @@ class ProductController extends Controller
             if ($input_images) {
                 foreach ($input_images as $image) {
                     $productimages_path = $image->store('public/images/product/photos');
-                    $productimages = new ProductImages(['name' => $productimages_path]);
+                    $productimages = new ProductImage(['name' => $productimages_path]);
                     $product->productimages()->save($productimages);
                 }    
             }
@@ -105,9 +110,12 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $product = Product::where('slug', $slug)->firstOrFail();
+        return view('products.edit', [
+            'product' => $product
+        ]);
     }
 
     /**
@@ -128,8 +136,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $model = Product::where('slug', $slug)->first();
+        $model->delete();
+        return response()->json(['message' => trans('messages.delete success', ['object' => 'Product'])], 200);
     }
 }

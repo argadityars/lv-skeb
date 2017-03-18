@@ -7700,6 +7700,14 @@ button.close {
   border-top: 0;
 }
 
+.table-divided tbody tr {
+  border-bottom: 1px solid #eee;
+}
+
+.table-divided tbody tr:last-child {
+  border-bottom: 0;
+}
+
 .panel-background {
   max-height: 130px;
   overflow: hidden;
@@ -7710,6 +7718,10 @@ button.close {
   width: 100px;
   position: absolute;
   top: 15px;
+}
+
+.no-margin-btm {
+  margin-bottom: 0;
 }
 
 /*# sourceMappingURL=app.css.map */
