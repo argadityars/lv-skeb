@@ -47,6 +47,7 @@ Route::post('shop/edit/customization', 'ShopController@updateCustomization')->na
 Route::resource('product', 'ProductController', ['except' => [
     'edit', 'update', 'show', 'destroy'
 ]]);
+Route::get('product/show/{slug}', 'ProductController@show')->name('product.show');
 Route::get('product/edit/{slug}', 'ProductController@edit')->name('product.edit');
 Route::post('product/edit/{slug}', 'ProductController@update')->name('product.update');
 Route::delete('product/delete/{slug}', 'ProductController@destroy')->name('product.delete');

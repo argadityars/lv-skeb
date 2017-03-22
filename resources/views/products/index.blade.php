@@ -23,7 +23,7 @@
 	                        <tr class="item{{$product->slug}}">
 	                        	<td class="col-md-1"><img src="{{ Storage::url($product->productimages[0]->name) }}" class="img-responsive"></td>
 	                            <td class="col-md-8">
-	                            	{{ $product->name }} <span class="label {{ $product->condition == 'Baru' ? 'label-primary' : 'label-success' }}">{{ $product->condition }}</span><br>
+	                            	<a href="{{ route('product.show', ['slug' => $product->slug]) }}">{{ $product->name }}</a> <span class="label {{ $product->condition == 'Baru' ? 'label-primary' : 'label-success' }}">{{ $product->condition }}</span><br>
 	                            	<span class="text-muted"><small>
 	                            	<span style="padding-right: 20px;">@lang('forms.category'): {{ $product->category }}</span>@lang('forms.subcategory'): {{ $product->subcategory }}</small></span>
 	                            </td>

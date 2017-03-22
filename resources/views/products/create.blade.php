@@ -1,7 +1,52 @@
 @extends('layouts.default')
 
 @section('title', 'Product')
+@section('top_script')
+<style type="text/css">
+.thumbnail{
+    height: 100px;
+    margin: 10px 10px 10px 0;
+}
 
+#files {
+  display:block;
+}
+
+.img-container {
+  display: inline-block;
+}
+
+.inputfile {
+  width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    color: #000;
+    background-color: #d5d5d5;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.inputfile + label {
+    cursor: pointer; /* "hand" cursor */
+}
+
+#result {
+  display: block;
+}
+</style>
+@endsection
 @section('content')
 <div class="container">
     <div class="row">
@@ -16,7 +61,9 @@
                             {{ Form::label('photos', trans('forms.photos'), ['class' => 'col-md-3 control-label']) }}
 
                             <div class="col-md-6">
-                                {{ Form::file('photos[]', ['class' => 'form-control', 'accept' => '.jpeg, .jpg, .png', 'multiple' => 'multiple']) }}
+                                <input id="files" class="inputfile" name='photos[]' type="file" multiple/>
+                                <label for="files" class="btn btn-default">Select Images</label>
+                                <output id="result" />
 
                                 @if ($errors->has('photos'))
                                     <span class="help-block">
@@ -214,5 +261,68 @@
             });
         });
     }
+</script>
+<script type="text/javascript">
+    window.onload = function(){
+        
+        //Check File API support
+        if(window.File && window.FileList && window.FileReader)
+        {
+            var filesInput = document.getElementById("files");
+            
+            filesInput.addEventListener("change", function(event){
+                
+                var files = event.target.files; //FileList object
+                var output = document.getElementById('result');
+                output.innerHTML = "";
+                
+                if (files.length > 3) {
+                
+                    filesInput.value = "";
+                    output.innerHTML = "<span class='help-block' style='color:red'><strong>Max 3 files</strong></span>";
+                  
+                } else {
+                    
+                  //filesInput.className += 'transparent';
+                  
+                    for(var i = 0; i< files.length; i++)
+                  {
+                      var file = files[i];
+
+                      //Only pics
+                      if(!file.type.match('image'))
+                        continue;
+
+                      var picReader = new FileReader();
+
+                      picReader.addEventListener("load",function(event){
+
+                          var picFile = event.target;
+
+                          var div = document.createElement("div");
+                          div.className += 'img-container';
+
+                          div.innerHTML = "<img class='thumbnail' src='" + picFile.result + "'" +
+                                  "title='" + picFile.name + "'/>";
+
+                          output.insertBefore(div,null);            
+
+                      });
+
+                       //Read the image
+                      picReader.readAsDataURL(file);
+                  }
+                
+                
+                }                               
+               
+            });
+        }
+        else
+        {
+            console.log("Your browser does not support File API");
+        }
+    }
+        
 </script>
 @endsection

@@ -61,6 +61,7 @@ class ProductController extends Controller
      */
     public function store(\App\Http\Requests\ProductRequest $request)
     {
+        //dd($request->file());
         //Get Shop
         $shop = Shop::where('user_id', Auth::user()->id)->first();
 
@@ -99,9 +100,13 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $product = Product::where('slug', $slug)->firstOrFail();
+        //dd($product);
+        return view('products.show', [
+            'product' => $product
+        ]);
     }
 
     /**

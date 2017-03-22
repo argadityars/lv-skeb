@@ -62,4 +62,12 @@ class Product extends Model
     {
         return $this->hasMany('App\ProductImage');
     }
+
+    /**
+     * Get the product images record associated with the product.
+     */
+    public function shop()
+    {
+        return $this->belongsTo('App\Shop');
+    }
 }
