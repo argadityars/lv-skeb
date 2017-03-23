@@ -61,16 +61,16 @@
 
 					  <!-- Nav tabs -->
 					  <ul class="nav nav-tabs" role="tablist">
-					    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Synopsis</a></li>
-					    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Additional Information</a></li>
-					    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Reviews</a></li>
+					    <li role="presentation" class="active"><a href="#synopsis" aria-controls="synopsis" role="tab" data-toggle="tab">Synopsis</a></li>
+					    <li role="presentation"><a href="#info" aria-controls="info" role="tab" data-toggle="tab">Additional Information</a></li>
+					    <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab">Reviews</a></li>
 					  </ul>
 
 					  <!-- Tab panes -->
 					  <div class="tab-content">
-					    <div role="tabpanel" class="tab-pane active">{{ $product->synopsis }}</div>
-					    <div role="tabpanel" class="tab-pane">{{ $product->shop->note }}</div>
-					    <div role="tabpanel" class="tab-pane">...</div>
+					    <div role="tabpanel" class="tab-pane active" id="synopsis">{{ $product->synopsis }}</div>
+					    <div role="tabpanel" class="tab-pane" id="info">{{ $product->shop->note }}</div>
+					    <div role="tabpanel" class="tab-pane" id="review">...</div>
 					  </div>
 
 					</div>

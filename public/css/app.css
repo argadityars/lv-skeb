@@ -7746,6 +7746,16 @@ button.close {
   font-size: 1.5em;
 }
 
+.product-image-list {
+  display: block;
+}
+
+.product-image-list .image-list {
+  max-height: 100px;
+  display: inline;
+  margin-right: 10px;
+}
+
 .info-box {
   padding: 10px;
   border-radius: 3px;

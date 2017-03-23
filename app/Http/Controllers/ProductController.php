@@ -61,7 +61,11 @@ class ProductController extends Controller
      */
     public function store(\App\Http\Requests\ProductRequest $request)
     {
-        //dd($request->file());
+        $this->validate($request, [
+            'photos' => 'required',
+            'photos.*' => 'image',
+        ]);
+
         //Get Shop
         $shop = Shop::where('user_id', Auth::user()->id)->first();
 
@@ -118,8 +122,13 @@ class ProductController extends Controller
     public function edit($slug)
     {
         $product = Product::where('slug', $slug)->firstOrFail();
+        $categories = DB::table('categories')->pluck('name', 'id');
+        $subcategories = DB::table('sub_categories')->where('category_id', $product->subcategory_id)->pluck('name', 'id');
+
         return view('products.edit', [
-            'product' => $product
+            'product' => $product,
+            'categories' => $categories,
+            'subcategories' => $subcategories
         ]);
     }
 
@@ -130,9 +139,12 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(\App\Http\Requests\ProductRequest $request, $slug)
     {
-        //
+        $product = Product::where('slug', $slug)->firstOrFail();
+        $product->update($request->except('_token'));
+
+        return redirect()->route('product.index')->with('message', trans('messages.update success', ['object' => 'Product']));
     }
 
     /**
