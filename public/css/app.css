@@ -7700,6 +7700,14 @@ button.close {
   border-top: 0;
 }
 
+.table-product-details {
+  margin-bottom: 3em;
+}
+
+.table-product-details tbody tr td {
+  padding: 0;
+}
+
 .table-divided tbody tr {
   border-bottom: 1px solid #eee;
 }
@@ -7722,6 +7730,30 @@ button.close {
 
 .no-margin-btm {
   margin-bottom: 0;
+}
+
+.col-border-right {
+  border-right: 1px solid #d3e0e9;
+}
+
+.product-title {
+  margin: 0;
+}
+
+.product-price {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  font-size: 1.5em;
+}
+
+.info-box {
+  padding: 10px;
+  border-radius: 3px;
+  margin-bottom: 1em;
+}
+
+.tab-pane {
+  margin: 10px;
 }
 
 /*# sourceMappingURL=app.css.map */

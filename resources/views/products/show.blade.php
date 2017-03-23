@@ -4,56 +4,83 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-        	<div class="panel panel-default">
-        		<div class="panel-body">
-        			<div class="row">
-        				<div class="col-md-8">
-        					<div class="row">
-        						<div class="col-md-4">
-        							<img src="{{ Storage::url($product->productimages[0]->name) }}" class="img-responsive">
-        							<div class="row" style="margin-top: 20px;">
-        								@foreach ($product->productimages as $image)
-        								<div class="col-md-4"><img src="{{ Storage::url($image->name) }}" class="img-responsive"></div>
-        								@endforeach
-        							</div>
-        						</div>
-        						<div class="col-md-8">
-        							<h3>{{ $product->name }}</h3>
-        							<h4>{{ $product->price }}</h4>
-        							<table class="table table-clean">
-        								<tr>
-        									<td>@lang('forms.category')</td>
-        									<td>{{ $product->category }}</td>
-        								</tr>
-        								<tr>
-        									<td>@lang('forms.condition')</td>
-        									<td>{{ $product->condition }}</td>
-        								</tr>
-        								<tr>
-        									<td>@lang('forms.weight')</td>
-        									<td>{{ $product->weight }} Gram</td>
-        								</tr>
-        							</table>
-        						</div>
-        					</div>
-        				</div>
-        				<div class="col-md-4">
-        					<div class="row">
-        						<div class="col-md-4">
-        							<img src="{{ Storage::url($product->shop->photo) }}" class="img-responsive img-circle">
-        						</div>
-        						<div class="col-md-8">
-        							{{ $product->shop->name }} <br>
-        							{{ title_case($product->shop->getCity()->name) }}, {{ title_case($product->shop->getProvince()->name) }}
-        						</div>
-        					</div>
-        				</div>
-        			</div>
-        		</div>
-        	</div>
-        </div>
-    </div>
+
+	<div class="row">
+		<div class="col-md-9">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-md-5">
+							<img src="{{ Storage::url($product->productimages[0]->name) }}" class="img-responsive">
+							<div class="row" style="margin-top: 20px;">
+								@for ($i = 1; $i < count($product->productimages); $i++)
+								<div class="col-md-4"><img src="{{ Storage::url($product->productimages[$i]->name) }}" class="img-responsive"></div>
+								@endfor
+							</div>
+						</div>
+						<div class="col-md-7">
+
+							<h3 class="product-title">{{ $product->name }}</h3>
+							<p class="text-muted"><em>by</em> {{ $product->author }}</p>
+							<h4 class="text-primary product-price">Rp {{ $product->price }}</h4>
+
+							<table class="table table-clean table-product-details">
+								<tr>
+									<td class="col-md-4">@lang('forms.category')</td>
+									<td>: {{ $product->category }}</td>
+								</tr>
+								<tr>
+									<td>@lang('forms.condition')</td>
+									<td>: <span class="label {{ $product->condition == 'Baru' ? 'label-primary' : 'label-success' }}">{{ $product->condition }}</span></td>
+								</tr>
+								<tr>
+									<td>@lang('forms.weight')</td>
+									<td>: {{ $product->weight }} gram</td>
+								</tr>
+							</table>
+
+							<div class="text-warning bg-warning info-box">
+								<h4>@lang('forms.notes')</h4>
+								<p>{{ $product->notes ? $product->notes : trans('messages.empty_product_notes') }}</p>
+							</div>
+
+							<form class="form-inline">
+								<div class="form-group">
+									<input type="number" class="form-control" min="1"></input>
+								</div>
+								<button type="submit" class="btn btn-primary">@lang('actions.buy')</button>
+								<a href="#" class="btn btn-default"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span></a>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div>
+
+					  <!-- Nav tabs -->
+					  <ul class="nav nav-tabs" role="tablist">
+					    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Synopsis</a></li>
+					    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Additional Information</a></li>
+					    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Reviews</a></li>
+					  </ul>
+
+					  <!-- Tab panes -->
+					  <div class="tab-content">
+					    <div role="tabpanel" class="tab-pane active">{{ $product->synopsis }}</div>
+					    <div role="tabpanel" class="tab-pane">{{ $product->shop->note }}</div>
+					    <div role="tabpanel" class="tab-pane">...</div>
+					  </div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			@include('includes.modules.product-owner-nav')
+		</div>
+	</div>
+
 </div>
 @endsection

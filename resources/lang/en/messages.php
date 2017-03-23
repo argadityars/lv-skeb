@@ -4,7 +4,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Forms Language Lines
+    | Messages Language Lines
     |--------------------------------------------------------------------------
     |
     | The following language lines are used for various
@@ -13,14 +13,7 @@ return [
     |
     */
 
-    'view' => 'View',
-    'create' => 'Create',
-    'edit' => 'Edit',
-    'delete' => 'Delete',
-    'save' => 'Save',
-    'cancel' => 'Cancel',
-    'add_product' => 'Add Book',
-    'manage_product' => 'Manage Book',
-    'buy' => 'Buy',
+    'empty_product_notes' => 'No notes',
+    
 
 ];
