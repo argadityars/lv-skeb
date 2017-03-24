@@ -15,12 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+# Public Pages
+Route::get('books', 'PageController@books')->name('pages.books');
+
 # Auth System
 Auth::routes();
 Route::get('register/verify/{token}', 'Auth\VerifyEmailController@verify');
 
 # Dashboard
-Route::get('/home', 'HomeController@index');
+Route::get('/dashboard', 'PageController@index')->middleware('auth');
 
 # Profile System
 Route::resource('profile', 'ProfileController', ['except' => [
