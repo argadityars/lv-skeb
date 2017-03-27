@@ -44,6 +44,9 @@
 					</a>
 				@endforeach
 			</div>
+
+			<center>{{ $products->links() }}</center>
+
 		</div>
 	</div>
 </div>

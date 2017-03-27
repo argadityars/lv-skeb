@@ -20,7 +20,7 @@ class PageController extends Controller
 
     public function books(Request $request)
     {
-        $products = Product::where('status', 1)->get();
+        $products = Product::where('status', 1)->paginate(16);
         $categories = DB::table('categories')->pluck('name', 'id');
         $subcategories = DB::table('sub_categories')->pluck('name', 'id');
 
@@ -30,7 +30,7 @@ class PageController extends Controller
                             ['name', 'LIKE', '%'.$request->get('q').'%'],
                             $request->get('category_id') ? ['category_id', $request->get('category_id')] : ['category_id', 'LIKE', '%%'],
                             $request->get('subcategory_id') ? ['subcategory_id', $request->get('subcategory_id')] : ['subcategory_id', 'LIKE', '%%'],
-                        ])->get();
+                        ])->paginate(16);
             $request->flash();
         }
 
