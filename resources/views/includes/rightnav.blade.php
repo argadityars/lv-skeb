@@ -11,7 +11,7 @@
 
             <ul class="dropdown-menu" role="menu">
                 <li><a href="{{ url('profile') }}">Profile</a></li>
-                <li><a href="{{ url('home') }}">Dashboard</a></li>
+                <li><a href="{{ url('dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ url('shop') }}">Shop</a></li>
                 <li><a href="{{ url('product') }}">Book</a></li>
                 <li role="separator" class="divider"></li>
