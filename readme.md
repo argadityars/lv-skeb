@@ -4,11 +4,11 @@ Skebbook is an online book marketplace from Indonesia.
 
 ### New Features
 
-  - User Management
-  - Shop Management
-  - Product Management
-  - Product Preview
-  - Search/Filter Product
+- User Management
+- Shop Management
+- Product Management
+- Product Preview
+- Search/Filter Product
 
 ### For Dev
 
