@@ -13,7 +13,10 @@ return [
     |
     */
 
+    'create success' => ':object created successfully!',
     'empty_product_notes' => 'No notes',
+    'update success' => ':object updated successfully!',
+    'password is different' => 'Make sure your recent password is correct',
     
 
 ];
