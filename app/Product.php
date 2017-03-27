@@ -16,7 +16,8 @@ class Product extends Model
         parent::boot();
 
         static::saving(function($model) {
-            $model->slug = str_slug($model->name);
+            $slug = new \App\Services\Slug(\App\Product::class);
+            $model->slug = $slug->create($model->name);
             $model->featured = 0;
             $model->status = 1;
 

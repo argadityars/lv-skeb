@@ -36,8 +36,10 @@
 	                        </tr>
 	                        @endforeach
 	                    </table>
+
 	                </div>
 	            </div>
+	            <center>{{ $products->links() }}</center>
 	        	<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
 					<div class="modal-dialog" role="document">
 						<!-- Modal content-->

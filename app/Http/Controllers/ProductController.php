@@ -29,7 +29,7 @@ class ProductController extends Controller
     public function index()
     {
         $shop = Shop::where('user_id', Auth::user()->id)->firstOrFail();
-        $products = Product::where('shop_id', $shop->id)->get();
+        $products = Product::where('shop_id', $shop->id)->paginate(6);
 
         return view('products.index', [
             'shop' => $shop,
