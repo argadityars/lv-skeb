@@ -22,6 +22,13 @@
                 &nbsp;
             </ul>
 
+            <!-- Search Bar -->
+            {!! Form::open(['url' => 'books/', 'method'=>'GET', 'class' => 'navbar-form navbar-left']) !!}
+                <div class="form-group">
+                    {{ Form::text('q', null, ['class' => 'form-control', 'placeholder' => trans('forms.search'), 'value' => old('q')]) }}
+                </div>
+            {!! Form::close() !!}
+
             <!-- Right Side Of Navbar -->
             @include('includes.rightnav')
         </div>

@@ -49,6 +49,7 @@ return [
     'weight' => 'Weight',
     'synopsis' => 'Sysnopsis',
     'notes' => 'Notes',
+    'search' => 'Search',
 
     /*
     |--------------------------------------------------------------------------

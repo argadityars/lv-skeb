@@ -46,7 +46,6 @@ Route::get('shop/edit/customization', 'ShopController@editCustomization')->name(
 Route::post('shop/edit/customization', 'ShopController@updateCustomization')->name('shop.customization');
 
 # Product System
-# Shop System
 Route::resource('product', 'ProductController', ['except' => [
     'edit', 'update', 'show', 'destroy'
 ]]);
