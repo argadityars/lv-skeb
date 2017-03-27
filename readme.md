@@ -1,4 +1,4 @@
-[![N|Solid](http://skebbook.com/img/logo.png)](http://skebbook.com)
+[![Skebbook](http://skebbook.com/img/logo.png)](http://skebbook.com)
 
 Skebbook is an online book marketplace from Indonesia.
 
